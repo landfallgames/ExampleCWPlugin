@@ -34,7 +34,7 @@ public class FlashlightPatches
     
     [HarmonyPatch(nameof(Flashlight.Update))]
     [HarmonyPrefix]
-    static bool PatchBatteryCharge(Flashlight __instance)
+    static bool UpdatePrefix(Flashlight __instance)
     {
         exampleSetting ??= GameHandler.Instance.SettingsHandler.GetSetting<ExampleSetting>();
 
