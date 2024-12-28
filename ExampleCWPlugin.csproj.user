@@ -1,5 +1,6 @@
 ﻿<Project>
     <PropertyGroup>
+        <!-- You can change the CWDir path here or use env variables.-->
         <CWDir Condition=" '$(CWDir)' == '' ">C:\Program Files (x86)\Steam\steamapps\common\Content Warning</CWDir>
     </PropertyGroup>
 </Project>
