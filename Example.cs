@@ -28,18 +28,21 @@ public class PluginTy
 // Harmony patches are automatically applied by the vanilla modloader.
 // If 0Harmony.dll is already loaded by BepInEx, then BepInEx's harmony will be used instead.
 [HarmonyPatch(typeof(Flashlight))]
-[HarmonyPatch("Update")]
-public class Patch
+public class FlashlightPatches
 {
-    static AccessTools.FieldRef<Flashlight, BatteryEntry> batteryEntry =
-        AccessTools.FieldRefAccess<Flashlight, BatteryEntry>("m_batteryEntry");
     static ExampleSetting? exampleSetting;
-
-    static bool Prefix(Flashlight __instance)
+    
+    [HarmonyPatch(nameof(Flashlight.Update))]
+    [HarmonyPrefix]
+    static bool PatchBatteryCharge(Flashlight __instance)
     {
         exampleSetting ??= GameHandler.Instance.SettingsHandler.GetSetting<ExampleSetting>();
-        var bat = batteryEntry(__instance);
+
+        // This is where BepInEx's AssemblyPublicizer comes in handy!
+        // m_batteryEntry would usually be private, but we can access it.
+        var bat = __instance.m_batteryEntry;
         bat.m_charge = Mathf.Max(bat.m_charge, bat.m_maxCharge * (exampleSetting.Value / 100));
+        
         return true;
     }
 }
@@ -48,9 +51,12 @@ public class Patch
 [ContentWarningSetting]
 public class ExampleSetting : FloatSetting, IExposedSetting {
     public override void ApplyValue() => Debug.Log($"omg, mod setting changed to {Value}");
-    protected override float GetDefaultValue() => 100;
-    protected override float2 GetMinMaxValue() => new(0, 100);
+    
+    public override float GetDefaultValue() => 100;
+    public override float2 GetMinMaxValue() => new(0, 100);
+    
     // Prefer using the Mods category
     public SettingCategory GetSettingCategory() => SettingCategory.Mods;
+    
     public string GetDisplayName() => "Example mod setting";
 }

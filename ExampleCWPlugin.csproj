@@ -9,7 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Private="false"/>
+        <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Private="false" Publicize="True"/>
+    </ItemGroup>
+
+    <!-- Use BepInEx's Assembly Publicizer to tell IDEs that every field, method, etc. in assemblies is public to make code cleaner -->
+    <ItemGroup>
+      <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
     <Target Name="CopyOutputFileToGame" AfterTargets="Build">
