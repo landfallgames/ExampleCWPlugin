@@ -20,7 +20,7 @@
       </PackageReference>
     </ItemGroup>
 
-    <Target Name="CopyOutputFileToGame" AfterTargets="Build">
+    <Target Name="CopyOutputFileToGame" AfterTargets="AfterBuild">
         <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll;preview.png" DestinationFolder="$(CWDir)\Plugins\$(MSBuildProjectName)"/>
     </Target>
 
