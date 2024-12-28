@@ -13,9 +13,9 @@ namespace ExampleCWPlugin;
 // The first argument is the GUID for this mod. This must be globally unique across all mods.
 // Consider prefixing your name/etc. to the GUID. (or generate an actual GUID)
 [ContentWarningPlugin("ExampleCWPlugin", "0.1", false)]
-public class PluginTy
+public class Plugin
 {
-    static PluginTy()
+    static Plugin()
     {
         // Static constructors of types marked with ContentWarningPluginAttribute are automatically invoked on load.
         // Register callbacks, construct stuff, etc. here.
