@@ -12,7 +12,7 @@
         <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Private="false" Publicize="True"/>
     </ItemGroup>
 
-    <!-- Use BepInEx's Assembly Publicizer to tell IDEs that every field, method, etc. in assemblies is public to make code cleaner -->
+    <!-- Use BepInEx's Assembly Publicizer to tell IDEs and the compiler that every field, method, etc. is public, in the game assemblies -->
     <ItemGroup>
       <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
         <PrivateAssets>all</PrivateAssets>
