@@ -30,11 +30,20 @@ public class Plugin
 [HarmonyPatch(typeof(Flashlight))]
 public class FlashlightPatches
 {
-    static ExampleSetting? exampleSetting;
+    private static ExampleSetting? exampleSetting;
     
+    // Be careful when patching methods, as, if you don't have the correct method name, then Harmony will fail to find it.
+    // This can be done in two ways:
+    // a) Use nameof() to get the method name.
+    //  This is safer than using strings as, if the method name changes in a game update, the compiler
+    //  will catch it and your IDE will display it in red.
+    //
+    // b) Use strings, but make sure to update them if the method name changes.
+    //  Harmony, as said before, will fail to find the method if you do not!
+    //  This is why it's recommended to use nameof() instead.
     [HarmonyPatch(nameof(Flashlight.Update))]
     [HarmonyPrefix]
-    static bool UpdatePrefix(Flashlight __instance)
+    private static bool UpdatePrefix(Flashlight __instance)
     {
         exampleSetting ??= GameHandler.Instance.SettingsHandler.GetSetting<ExampleSetting>();
 
