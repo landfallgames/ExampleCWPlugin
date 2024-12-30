@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Unity.Mathematics;
 using UnityEngine;
 using Zorro.Settings;
