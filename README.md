@@ -7,7 +7,7 @@ This is an example mod for content warning to show how to use the modding API!
 ## This project
 
 - ExampleCWPlugin.csproj: This specifies the location of Content Warning and its DLLs. If it's not installed in the default Steam location of `C:\Program Files (x86)\Steam\steamapps\common\Content Warning`, you can edit that here, or set the environment variable `CWDir` before opening the project.
-    - There's also an MSBuild Target that runs after the project is build, which copies your mod's DLL and `preview.png` to the Content Warning Plugins directory, letting you easily test your code by just building and then launching Content Warning.
+    - There's also a build step that copies the built DLL and preview.png to the Content Warning Plugins directory when building, letting you easily test your code by just building then launching Content Warning.
 - preview.png: This is the image used for your mod's steam workshop page when uploading the mod.
 - Example.cs: The code for the mod. Check out the comments in the code for details!
 
