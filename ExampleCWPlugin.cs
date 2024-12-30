@@ -31,7 +31,7 @@ public class ExampleCWPlugin
 public class FlashlightPatches
 {
     private static ExampleSetting? exampleSetting;
-    
+
     // Be careful when patching methods, as, if you don't have the correct method name, then Harmony will fail to find it.
     // This can be done in two ways:
     // a) Use nameof() to get the method name.
@@ -51,7 +51,7 @@ public class FlashlightPatches
         // m_batteryEntry would usually be private, but we can access it.
         var bat = __instance.m_batteryEntry;
         bat.m_charge = Mathf.Max(bat.m_charge, bat.m_maxCharge * (exampleSetting.Value / 100));
-        
+
         return true;
     }
 }
@@ -60,12 +60,12 @@ public class FlashlightPatches
 [ContentWarningSetting]
 public class ExampleSetting : FloatSetting, IExposedSetting {
     public override void ApplyValue() => Debug.Log($"omg, mod setting changed to {Value}");
-    
+
     public override float GetDefaultValue() => 100;
     public override float2 GetMinMaxValue() => new(0, 100);
-    
+
     // Prefer using the Mods category
     public SettingCategory GetSettingCategory() => SettingCategory.Mods;
-    
+
     public string GetDisplayName() => "Example mod setting";
 }
