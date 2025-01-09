@@ -10,17 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Exclude="$(CWDir)\Content Warning_Data\Managed\Assembly-CSharp.dll" Private="false"/>
-        <Reference Include="$(CWDir)\Content Warning_Data\Managed\Assembly-CSharp.dll" Publicize="true" Private="false"/>
-    </ItemGroup>
-
-    <!-- Use BepInEx's Assembly Publicizer to tell the compiler & IDE that every field, method, etc. is public, in the game assemblies. -->
-    <!-- This makes it easier to change fields and call methods that would otherwise be private. -->
-    <ItemGroup>
-      <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <!-- Make internal members appear to be public, able to be accessed without reflection -->
+        <PackageReference Include="Krafs.Publicizer" Version="2.3.0"/>
+        <!-- Alternatively, use BepInEx's Publicizer instead of Krafs -->
+        <!--<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1"/>-->
+        <Reference Include="$(CWDir)\Content Warning_Data\Managed\*.dll" Private="false"/>
+        <Publicize Include="Assembly-CSharp" />
     </ItemGroup>
 
     <Target Name="CopyOutputFileToGame" AfterTargets="Build">

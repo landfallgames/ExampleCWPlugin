@@ -61,8 +61,8 @@ public class FlashlightPatches
 public class ExampleSetting : FloatSetting, IExposedSetting {
     public override void ApplyValue() => Debug.Log($"omg, mod setting changed to {Value}");
 
-    public override float GetDefaultValue() => 100;
-    public override float2 GetMinMaxValue() => new(0, 100);
+    protected override float GetDefaultValue() => 100;
+    protected override float2 GetMinMaxValue() => new(0, 100);
 
     // Prefer using the Mods category
     public SettingCategory GetSettingCategory() => SettingCategory.Mods;
