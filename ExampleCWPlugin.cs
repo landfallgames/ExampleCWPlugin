@@ -12,7 +12,14 @@ namespace ExampleCWPlugin;
 
 // The first argument is the GUID for this mod. This must be globally unique across all mods.
 // Consider prefixing your name/etc. to the GUID. (or generate an actual GUID)
-[ContentWarningPlugin("ExampleCWPlugin", "0.1", false)]
+
+// vanillaCompatible: False means that this mod affects anything related to the multiplayer aspect of the game - for
+// example, adjusting sprint regen, battery life, changing monster behavior, or anything similar or more major. Most
+// mods leave this as false. 
+// True means that this mod only affects this client. For example, a mod that changes the folder your clips are saved at.
+// A good rule of thumb is: If someone else can tell you're using this mod, you must set vanillaCompatible to false.
+// If you set this to true, and it should be false, your mod may be removed/banned from the workshop.
+[ContentWarningPlugin("ExampleCWPlugin", "0.1", vanillaCompatible: false)]
 public class ExampleCWPlugin
 {
     static ExampleCWPlugin()
@@ -32,23 +39,13 @@ public class FlashlightPatches
 {
     private static ExampleSetting? exampleSetting;
 
-    // Be careful when patching methods, as, if you don't have the correct method name, then Harmony will fail to find it.
-    // This can be done in two ways:
-    // a) Use nameof() to get the method name.
-    //  This is safer than using strings as, if the method name changes in a game update, the compiler
-    //  will catch it and your IDE will display it in red.
-    //
-    // b) Use strings, but make sure to update them if the method name changes.
-    //  Harmony, as said before, will fail to find the method if you do not!
-    //  This is why it's recommended to use nameof() instead.
+    // Make sure the name matches when using a string in HarmonyPatch(). A good way to do so is by using nameof().
     [HarmonyPatch(nameof(Flashlight.Update))]
     [HarmonyPrefix]
     private static bool UpdatePrefix(Flashlight __instance)
     {
         exampleSetting ??= GameHandler.Instance.SettingsHandler.GetSetting<ExampleSetting>();
-
-        // This is where BepInEx's AssemblyPublicizer comes in handy!
-        // m_batteryEntry would usually be private, but we can access it.
+        // m_batteryEntry is public due to use of a publicizer
         var bat = __instance.m_batteryEntry;
         bat.m_charge = Mathf.Max(bat.m_charge, bat.m_maxCharge * (exampleSetting.Value / 100));
 
@@ -58,7 +55,8 @@ public class FlashlightPatches
 
 // Don't forget to inherit from IExposedSetting too!
 [ContentWarningSetting]
-public class ExampleSetting : FloatSetting, IExposedSetting {
+public class ExampleSetting : FloatSetting, IExposedSetting
+{
     public override void ApplyValue() => Debug.Log($"omg, mod setting changed to {Value}");
 
     protected override float GetDefaultValue() => 100;
